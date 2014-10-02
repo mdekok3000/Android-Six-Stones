@@ -1,0 +1,261 @@
+package com.syrus.kane.sixstones;
+
+import java.util.List;
+
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
+//import android.app.AlertDialog;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+		loadActivityEvents();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		//getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private void loadActivityEvents() {
+		final SeekBar mySeekBar = ((SeekBar) findViewById(R.id.stoneCounter));
+	    mySeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+	        @Override
+	        public void onProgressChanged(SeekBar seekerBar, int progress, boolean arg2) {
+	            TextView t =(TextView)findViewById(R.id.stoneCounterValue);
+	            String prog = "" + (progress + 1);
+	            t.setText(prog);
+	            
+	            final Button myButton = ((Button) findViewById(R.id.button2));
+	            if(progress > 0)
+	            	myButton.setVisibility(Button.VISIBLE);
+	            else
+	            	myButton.setVisibility(Button.GONE);
+	        }
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+	    });
+	    
+	    final Button myButton = ((Button) findViewById(R.id.button2));
+	    myButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				final RelativeLayout stones = ((RelativeLayout) findViewById(R.id.stonesLead));
+				stones.setVisibility(RelativeLayout.VISIBLE);
+				
+				Integer numStones = mySeekBar.getProgress() + 1;
+				List<String> pulls = Puller.getPulls(numStones);
+				
+//				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//				builder.setTitle(numStones + " Pulls");
+//				builder.setMessage(pulls.toString());
+//				builder.show();
+				
+				Resources res = getResources();
+				
+				ImageView stone1 = ((ImageView) findViewById(R.id.stone1Lead));
+				ImageView stone2 = ((ImageView) findViewById(R.id.stone2Lead));
+				ImageView stone3 = ((ImageView) findViewById(R.id.stone3Lead));
+				ImageView stone4 = ((ImageView) findViewById(R.id.stone4Lead));
+				ImageView stone5 = ((ImageView) findViewById(R.id.stone5Lead));
+				ImageView stone6 = ((ImageView) findViewById(R.id.stone6Lead));
+				
+				int emptyResId = res.getIdentifier("empty", "drawable", getPackageName());
+				if(emptyResId != 0x00)
+				{
+					stone1.setImageDrawable(res.getDrawable(emptyResId));
+					stone2.setImageDrawable(res.getDrawable(emptyResId));
+					stone3.setImageDrawable(res.getDrawable(emptyResId));
+					stone4.setImageDrawable(res.getDrawable(emptyResId));
+					stone5.setImageDrawable(res.getDrawable(emptyResId));
+					stone6.setImageDrawable(res.getDrawable(emptyResId));
+				}
+				
+				int resId = 0x00;
+				
+				switch(numStones) {
+				case 1:
+					resId = res.getIdentifier(pulls.get(0) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone3.setImageDrawable(drawable);
+					}
+					break;
+				case 2:
+					resId = res.getIdentifier(pulls.get(0) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone3.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(1) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone2.setImageDrawable(drawable);
+					}
+					break;
+				case 3:
+					resId = res.getIdentifier(pulls.get(0) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone3.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(1) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone2.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(2) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone1.setImageDrawable(drawable);
+					}
+					break;
+				case 4:
+					resId = res.getIdentifier(pulls.get(0) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone3.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(1) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone2.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(2) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone6.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(3) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone5.setImageDrawable(drawable);
+					}
+					break;
+				case 5:
+					resId = res.getIdentifier(pulls.get(0) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone3.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(1) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone2.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(2) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone1.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(3) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone6.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(4) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone5.setImageDrawable(drawable);
+					}
+					break;
+				case 6:
+					resId = res.getIdentifier(pulls.get(0) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone1.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(1) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone2.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(2) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone3.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(3) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone4.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(4) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone5.setImageDrawable(drawable);
+					}
+					resId = res.getIdentifier(pulls.get(5) , "drawable", getPackageName());
+					if(resId != 0x00)
+					{
+						Drawable drawable = res.getDrawable(resId);
+						stone6.setImageDrawable(drawable);
+					}
+					break;
+				}
+			}
+		});
+	}
+}
