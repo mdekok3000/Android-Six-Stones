@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.syrus.kane.sixstones"
     android:versionCode="2"
-    android:versionName="1.1" >
+    android:versionName="1.0a" >
 
     <uses-sdk
         android:minSdkVersion="14"
