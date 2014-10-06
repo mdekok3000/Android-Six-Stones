@@ -1,0 +1,9 @@
+package com.syrus.kane.sixstones;
+
+import android.preference.PreferenceActivity;
+
+public class SettingsActivity extends PreferenceActivity {
+	
+	
+	
+}
