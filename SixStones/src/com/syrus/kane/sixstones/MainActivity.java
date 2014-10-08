@@ -16,11 +16,13 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
@@ -129,10 +131,32 @@ public class MainActivity extends Activity {
 				else
 					colors = Puller.colors1;
 				
+				Resources res = getResources();
+				int resId = 0x00;
+				
+				CheckBox neutralStone = ((CheckBox) findViewById(R.id.neutralStone));
+				Boolean neutral = neutralStone.isChecked();
+				List<String> neutralPull = Puller.getPulls(1, colors);
+				
+				if(neutral)
+				{
+					resId = res.getIdentifier(neutralPull.get(0) , "drawable", getPackageName());
+					Drawable drawable = res.getDrawable(resId);
+					
+					ImageView stoneNeutral = ((ImageView) findViewById(R.id.stoneNeutral));
+					stoneNeutral.setImageDrawable(drawable);
+					
+					LinearLayout stonesNeutral = ((LinearLayout) findViewById(R.id.stonesNeutral));
+					stonesNeutral.setVisibility(LinearLayout.VISIBLE);
+				}
+				else
+				{
+					LinearLayout stonesNeutral = ((LinearLayout) findViewById(R.id.stonesNeutral));
+					stonesNeutral.setVisibility(LinearLayout.GONE);
+				}
+				
 				Integer numStones = mySeekBar.getProgress() + 1;
 				List<String> pulls = Puller.getPulls(numStones, colors);
-				
-				Resources res = getResources();
 				
 				ImageView stone1 = ((ImageView) findViewById(R.id.stone1Lead));
 				ImageView stone2 = ((ImageView) findViewById(R.id.stone2Lead));
@@ -140,6 +164,28 @@ public class MainActivity extends Activity {
 				ImageView stone4 = ((ImageView) findViewById(R.id.stone4Lead));
 				ImageView stone5 = ((ImageView) findViewById(R.id.stone5Lead));
 				ImageView stone6 = ((ImageView) findViewById(R.id.stone6Lead));
+				
+				if(neutral)
+				{
+					String message = "";
+					
+					if(pulls.get(0).equals(neutralPull.get(0))) message += "Possible Critical Success";
+					else if(pulls.get(0).equals("white") && neutralPull.get(0).equals("black")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("blue") && neutralPull.get(0).equals("red")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("black") && neutralPull.get(0).equals("white")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("red") && neutralPull.get(0).equals("blue")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("green") && neutralPull.get(0).equals("clear")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("clear") && neutralPull.get(0).equals("green")) message += "Possible Critical Failure";
+					
+					TextView randomBonus = ((TextView) findViewById(R.id.textView6));
+					randomBonus.setText("RB "+Puller.getRandomBonus(pulls, neutralPull.get(0)));
+					
+					if(!message.equals("") && numStones == 1)
+					{
+						Toast msg = Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT);
+						msg.show();
+					}
+				}
 				
 				int emptyResId = res.getIdentifier("empty", "drawable", getPackageName());
 				if(emptyResId != 0x00)
@@ -151,8 +197,6 @@ public class MainActivity extends Activity {
 					stone5.setVisibility(ImageView.GONE);
 					stone6.setVisibility(ImageView.GONE);
 				}
-				
-				int resId = 0x00;
 				
 				switch(numStones) {
 				case 1:
@@ -339,9 +383,9 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				final LinearLayout stonesLead = ((LinearLayout) findViewById(R.id.stonesLead));
+				LinearLayout stonesLead = ((LinearLayout) findViewById(R.id.stonesLead));
 				stonesLead.setVisibility(LinearLayout.VISIBLE);
-				final LinearLayout stonesPulled = ((LinearLayout) findViewById(R.id.stonesPulled));
+				LinearLayout stonesPulled = ((LinearLayout) findViewById(R.id.stonesPulled));
 				stonesPulled.setVisibility(LinearLayout.VISIBLE);
 				
 				Boolean myPref = settings.getBoolean(CANARY, false);
@@ -351,10 +395,55 @@ public class MainActivity extends Activity {
 				else
 					colors = Puller.colors1;
 				
+				Resources res = getResources();
+				int resId = 0x00;
+				
+				CheckBox neutralStone = ((CheckBox) findViewById(R.id.neutralStone));
+				Boolean neutral = neutralStone.isChecked();
+				List<String> neutralPull = Puller.getPulls(1, colors);
+				
+				if(neutral)
+				{
+					
+					resId = res.getIdentifier(neutralPull.get(0) , "drawable", getPackageName());
+					Drawable drawable = res.getDrawable(resId);
+					
+					ImageView stoneNeutral = ((ImageView) findViewById(R.id.stoneNeutral));
+					stoneNeutral.setImageDrawable(drawable);
+					
+					LinearLayout stonesNeutral = ((LinearLayout) findViewById(R.id.stonesNeutral));
+					stonesNeutral.setVisibility(LinearLayout.VISIBLE);
+				}
+				else
+				{
+					LinearLayout stonesNeutral = ((LinearLayout) findViewById(R.id.stonesNeutral));
+					stonesNeutral.setVisibility(LinearLayout.GONE);
+				}
+				
 				Integer numStones = mySeekBar.getProgress() + 1;
 				List<String> pulls = Puller.getPulls(numStones, colors);
 				
-				Resources res = getResources();
+				if(neutral)
+				{
+					String message = "";
+					
+					if(pulls.get(0).equals(neutralPull.get(0))) message += "Possible Critical Success";
+					else if(pulls.get(0).equals("white") && neutralPull.get(0).equals("black")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("blue") && neutralPull.get(0).equals("red")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("black") && neutralPull.get(0).equals("white")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("red") && neutralPull.get(0).equals("blue")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("green") && neutralPull.get(0).equals("clear")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("clear") && neutralPull.get(0).equals("green")) message += "Possible Critical Failure";
+					
+					TextView randomBonus = ((TextView) findViewById(R.id.textView6));
+					randomBonus.setText("RB "+Puller.getRandomBonus(pulls, neutralPull.get(0)));
+					
+					if(!message.equals(""))
+					{
+						Toast msg = Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT);
+						msg.show();
+					}
+				}
 				
 				ImageView leadStone = ((ImageView) findViewById(R.id.stoneLead));
 				ImageView stone1 = ((ImageView) findViewById(R.id.stone1Lead));
@@ -374,8 +463,6 @@ public class MainActivity extends Activity {
 					stone5.setVisibility(ImageView.GONE);
 					stone6.setVisibility(ImageView.GONE);
 				}
-				
-				int resId = 0x00;
 				
 				switch(numStones) {
 				case 2:

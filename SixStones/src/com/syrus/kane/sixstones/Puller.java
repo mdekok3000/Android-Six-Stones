@@ -12,6 +12,13 @@ public class Puller {
 	public static final String[] colors1 	= { "white", "blue", "black", "red", "green", "clear" };
 	public static final String[] colors2 	= { "white", "blue", "black", "red", "green", "canary" };
 	
+	public static final String[] rbWhite	= { "black", "green", "blue", "red", "clear", "white" };
+	public static final String[] rbBlue		= { "red", "clear", "white", "green", "black", "blue" };
+	public static final String[] rbBlack	= { "white", "red", "green", "clear", "blue", "black" };
+	public static final String[] rbRed		= { "blue", "black", "clear", "white", "green", "red" };
+	public static final String[] rbGreen	= { "clear", "white", "black", "blue", "red", "green" };
+	public static final String[] rbClear	= { "green", "blue", "red", "black", "white", "clear" };
+	
 	public static void main(String[] args) 
 	{
 		if(args.length > 0 && args[0].matches("[1-6]"))
@@ -36,6 +43,30 @@ public class Puller {
 		}
 		
 		return pullList;
+	}
+	
+	public static int getRandomBonus(List<String> pulls, String neutral)
+	{
+		int randomBonus = 0;
+		
+		for(int i = 0; i < pulls.size(); i++)
+		{
+			String pull = pulls.get(i);
+			if(pull.equals("white"))
+				randomBonus = Math.max(randomBonus, Arrays.asList(rbWhite).indexOf(neutral));
+			else if(pull.equals("blue"))
+				randomBonus = Math.max(randomBonus, Arrays.asList(rbBlue).indexOf(neutral));
+			else if(pull.equals("black"))
+				randomBonus = Math.max(randomBonus, Arrays.asList(rbBlack).indexOf(neutral));
+			else if(pull.equals("red"))
+				randomBonus = Math.max(randomBonus, Arrays.asList(rbRed).indexOf(neutral));
+			else if(pull.equals("green"))
+				randomBonus = Math.max(randomBonus, Arrays.asList(rbGreen).indexOf(neutral));
+			else if(pull.equals("clear"))
+				randomBonus = Math.max(randomBonus, Arrays.asList(rbClear).indexOf(neutral));
+		}
+		
+		return randomBonus;
 	}
 	
 	public static List<String> getPulls(int numStones, String[] colors) 
