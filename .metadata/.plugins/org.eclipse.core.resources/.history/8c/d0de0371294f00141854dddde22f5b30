@@ -47,14 +47,11 @@ public class Puller {
 	
 	public static int getRandomBonus(List<String> pulls, String neutral)
 	{
-		neutral = neutral.replace("canary", "clear");
-		
 		int randomBonus = 0;
 		
 		for(int i = 0; i < pulls.size(); i++)
 		{
 			String pull = pulls.get(i);
-			pull = pull.replace("canary", "clear");
 			if(pull.equals("white"))
 				randomBonus = Math.max(randomBonus, Arrays.asList(rbWhite).indexOf(neutral));
 			else if(pull.equals("blue"))

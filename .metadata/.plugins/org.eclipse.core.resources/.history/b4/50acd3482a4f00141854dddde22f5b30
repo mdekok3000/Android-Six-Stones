@@ -432,8 +432,8 @@ public class MainActivity extends Activity {
 					else if(pulls.get(0).equals("blue") && neutralPull.get(0).equals("red")) message += "Possible Critical Failure";
 					else if(pulls.get(0).equals("black") && neutralPull.get(0).equals("white")) message += "Possible Critical Failure";
 					else if(pulls.get(0).equals("red") && neutralPull.get(0).equals("blue")) message += "Possible Critical Failure";
-					else if(pulls.get(0).equals("green") && (neutralPull.get(0).equals("clear") || neutralPull.get(0).equals("canary"))) message += "Possible Critical Failure";
-					else if((pulls.get(0).equals("clear") || pulls.get(0).equals("canary")) && neutralPull.get(0).equals("green")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("green") && neutralPull.get(0).equals("clear")) message += "Possible Critical Failure";
+					else if(pulls.get(0).equals("clear") && neutralPull.get(0).equals("green")) message += "Possible Critical Failure";
 					
 					TextView randomBonus = ((TextView) findViewById(R.id.textView6));
 					randomBonus.setText("RB "+Puller.getRandomBonus(pulls, neutralPull.get(0)));
